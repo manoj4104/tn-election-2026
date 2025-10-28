@@ -1,4 +1,9 @@
 {
+  "ignoreFiles": [
+    "**/*.tsx",
+    "**/*.ts",
+    "**/*.js"
+  ],
   "rules": {
     "at-rule-no-unknown": [
       true,
