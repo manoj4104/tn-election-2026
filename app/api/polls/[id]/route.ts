@@ -4,12 +4,13 @@ import { prisma } from '@/lib/prisma';
 // GET specific poll with results
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const poll = await prisma.poll.findUnique({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(id),
       },
       include: {
         options: {
@@ -41,15 +42,16 @@ export async function GET(
 // PUT update poll
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { status, endDate } = body;
 
     const poll = await prisma.poll.update({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(id),
       },
       data: {
         ...(status && { status }),
@@ -77,12 +79,13 @@ export async function PUT(
 // DELETE poll
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await prisma.poll.delete({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(id),
       },
     });
 

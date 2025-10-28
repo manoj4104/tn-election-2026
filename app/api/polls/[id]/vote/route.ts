@@ -5,9 +5,10 @@ import { headers } from 'next/headers';
 // POST submit vote
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { optionId, sessionId } = body;
 
@@ -18,7 +19,7 @@ export async function POST(
       );
     }
 
-    const pollId = parseInt(params.id);
+    const pollId = parseInt(id);
 
     // Check if poll exists and is active
     const poll = await prisma.poll.findUnique({

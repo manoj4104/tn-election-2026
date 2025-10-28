@@ -9,17 +9,19 @@ const ConstituencyUpdate = z.object({
   code: z.string().optional(),
 })
 
-export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
-  const id = Number(params.id)
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id: idStr } = await params;
+  const id = Number(idStr);
   const item = await prisma.constituency.findUnique({ where: { id } })
   if (!item) return Response.json({ error: 'Not found' }, { status: 404 })
   return Response.json(item)
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const unauthorized = requireApiKey(req)
   if (unauthorized) return unauthorized
-  const id = Number(params.id)
+  const { id: idStr } = await params;
+  const id = Number(idStr);
   const body = await req.json()
   const parsed = ConstituencyUpdate.safeParse(body)
   if (!parsed.success) return Response.json({ error: parsed.error.flatten() }, { status: 400 })
@@ -27,10 +29,11 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   return Response.json(item)
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const unauthorized = requireApiKey(req)
   if (unauthorized) return unauthorized
-  const id = Number(params.id)
+  const { id: idStr } = await params;
+  const id = Number(idStr);
   await prisma.constituency.delete({ where: { id } })
   return Response.json({ ok: true })
 }
