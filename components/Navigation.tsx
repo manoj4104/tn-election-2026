@@ -22,7 +22,7 @@ const Navigation = () => {
   }, []);
 
   return (
-    <nav className="bg-white shadow-sm mb-6">
+    <nav className="bg-white shadow-sm">
       {/* Red Banner */}
       <div className="w-full bg-red-700 py-1">
         <div className="container mx-auto px-4">
@@ -32,9 +32,9 @@ const Navigation = () => {
       
       {/* Main Navigation Container */}
       <div className="w-full">
-        <div className="container mx-auto px-4 py-4 grid grid-cols-[auto_1fr_auto] items-center h-16 gap-6">
+        <div className="container mx-auto px-4 py-4 grid grid-cols-[auto_1fr_auto] items-center gap-6">
           {/* Logo */}
-          <a href="/" className="flex items-center h-16 min-w-[140px]" aria-label="Daily Thanthi Home">
+          <a href="/" className="flex items-center min-w-[140px]" aria-label="Daily Thanthi Home">
             <Image
               src="/images/dailythanthilogo-original.png"
               alt="Daily Thanthi Logo"
