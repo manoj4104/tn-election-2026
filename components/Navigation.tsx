@@ -61,6 +61,10 @@ const Navigation = () => {
               <span className="text-[15px] font-medium text-gray-700 leading-tight">வேட்பாளர்கள்</span>
               <span className="text-xs text-gray-500">Candidates</span>
             </a>
+            <a href="/polls" className="flex flex-col items-center justify-center px-3 h-16">
+              <span className="text-[15px] font-medium text-gray-700 leading-tight">கருத்துக்கணிப்பு</span>
+              <span className="text-xs text-gray-500">Polls</span>
+            </a>
             <a href="/results" className="flex flex-col items-center justify-center px-3 h-16">
               <span className="text-[15px] font-medium text-gray-700 leading-tight">முடிவுகள்</span>
               <span className="text-xs text-gray-500">Results</span>
@@ -116,6 +120,13 @@ const Navigation = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 வேட்பாளர்கள் / Candidates
+              </a>
+              <a 
+                href="/polls" 
+                className="text-gray-700 hover:text-red-600 transition-colors py-3 px-2 border-b border-gray-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                கருத்துக்கணிப்பு / Polls
               </a>
               <a 
                 href="/voting" 

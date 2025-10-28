@@ -15,6 +15,7 @@ model Party {
   logoUrl   String? // public URL to logo in /public/images
   candidates Candidate[]
   results    Result[]
+  pollOptions PollOption[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -26,6 +27,7 @@ model Constituency {
   code      String?  // optional code/id
   candidates Candidate[]
   results    Result[]
+  polls      Poll[]
 }
 
 model Candidate {
@@ -67,4 +69,51 @@ model Result {
   Constituency   Constituency @relation(fields: [constituencyId], references: [id])
   Party          Party?       @relation(fields: [partyId], references: [id])
   Candidate      Candidate?   @relation(fields: [candidateId], references: [id])
+}
+
+model Poll {
+  id             Int          @id @default(autoincrement())
+  title          String
+  titleTamil     String?
+  question       String
+  questionTamil  String?
+  constituencyId Int?
+  type           String       @default("prediction") // prediction, opinion, satisfaction
+  status         String       @default("active") // active, closed
+  startDate      DateTime     @default(now())
+  endDate        DateTime?
+  totalVotes     Int          @default(0)
+  options        PollOption[]
+  votes          PollVote[]
+  Constituency   Constituency? @relation(fields: [constituencyId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model PollOption {
+  id          Int        @id @default(autoincrement())
+  pollId      Int
+  text        String
+  textTamil   String?
+  partyId     Int?
+  voteCount   Int        @default(0)
+  percentage  Float      @default(0)
+  Poll        Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  Party       Party?     @relation(fields: [partyId], references: [id])
+  votes       PollVote[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model PollVote {
+  id            Int        @id @default(autoincrement())
+  pollId        Int
+  optionId      Int
+  voterIp       String?
+  voterSession  String?
+  createdAt     DateTime   @default(now())
+  Poll          Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  Option        PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  @@unique([pollId, voterSession])
 }
