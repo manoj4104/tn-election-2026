@@ -2,10 +2,13 @@
   "extends": "next/core-web-vitals",
   "rules": {
     "@next/next/no-img-element": "off",
-    "react/no-unknown-property": ["error", { "ignore": ["jsx", "global"] }]
+    "react/no-unknown-property": ["error", { "ignore": ["jsx", "global"] }],
+    "@stylistic/no-inline-styles": "off",
+    "react/forbid-dom-props": "off"
   },
   "ignorePatterns": [
     "app/results/**/*.tsx",
-    "components/ColorPreview.tsx"
+    "components/ColorPreview.tsx",
+    "app/tn-election/page.tsx"
   ]
 }

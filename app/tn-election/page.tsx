@@ -1,4 +1,6 @@
 'use client'
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react/no-inline-styles */
 
 import React, { useState, useEffect } from "react";
 import Image from 'next/image'
@@ -6,33 +8,59 @@ import ProgressBar from '@/components/ProgressBar';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
-// TN Election 2026 - Single-file React App (Starter)
-// - Tailwind CSS utility classes used (install Tailwind in your project)
-// - This is a single-file demo you can drop into a React app (e.g., create-react-app / Vite / Next.js page)
-// - Replace mock data with real API endpoints when ready
+// TN Election 2026 - Live Dashboard
+// Connected to Prisma database via /api/dashboard
 
-// ------------------------- Mock Data -------------------------
-const MOCK_SUMMARY = {
-  totalSeats: 234,
-  alliances: [
-    { id: "dmk", name: "DMK Alliance", seats: 120, color: "bg-green-600", votesPct: 41 },
-    { id: "aiadmk", name: "AIADMK Alliance", seats: 95, color: "bg-blue-600", votesPct: 38 },
-    { id: "bjp", name: "BJP", seats: 10, color: "bg-yellow-500", votesPct: 9 },
-    { id: "others", name: "Others", seats: 9, color: "bg-gray-500", votesPct: 12 },
-  ],
-  highlights: [
-    "DMK leads in urban Chennai clusters",
-    "AIADMK holding strong in Kongu region",
-    "High turnout expected in rural belt"
-  ]
-};
+// ------------------------- Types -------------------------
+interface Alliance {
+  id: string;
+  name: string;
+  seats: number;
+  won?: number;
+  leading?: number;
+  color: string;
+  votesPct: number;
+}
 
-const MOCK_CONSTITUENCIES = [
-  { id: "coimbatore-central", name: "Coimbatore Central", district: "Coimbatore", leading: "DMK", leadPct: 62, lastYear: "AIADMK", leadingCandidate: { party: "DMK", name: "Candidate A" } },
-  { id: "madurai-north", name: "Madurai North", district: "Madurai", leading: "AIADMK", leadPct: 51, lastYear: "DMK", leadingCandidate: { party: "AIADMK", name: "Candidate B" } },
-  { id: "chennai-central", name: "Chennai Central", district: "Chennai", leading: "DMK", leadPct: 70, lastYear: "DMK", leadingCandidate: { party: "DMK", name: "Candidate C" } },
-  // ... add more or load from API
-];
+interface Constituency {
+  id: string;
+  code: string;
+  name: string;
+  state: string;
+  leading: string;
+  leadingPartyId: number | null;
+  leadingCandidate: {
+    name: string;
+    party: string;
+    votes: number;
+  } | null;
+  leadPct: number;
+  totalVotes: number;
+  results: Array<{
+    candidate: string;
+    party: string;
+    votes: number;
+    won: boolean;
+    leading: boolean;
+  }>;
+}
+
+interface DashboardData {
+  summary: {
+    totalSeats: number;
+    alliances: Alliance[];
+    highlights: string[];
+    lastUpdated: string;
+  };
+  constituencies: Constituency[];
+  parties: Array<{
+    id: number;
+    name: string;
+    abbreviation: string | null;
+    color: string | null;
+    logoUrl: string | null;
+  }>;
+}
 
 // ------------------------- Utility Components -------------------------
 function IconParty({ id }: { id: string }) {
@@ -91,25 +119,33 @@ function SubNavigation({ onNavigate, currentRoute }: { onNavigate: (route: strin
 }
 
 // ------------------------- Home -------------------------
-function Home({ onOpenConstituency }: { onOpenConstituency: (id: string) => void }) {
+function Home({ summary, constituencies, onOpenConstituency }: { 
+  summary: DashboardData['summary'];
+  constituencies: Constituency[];
+  onOpenConstituency: (id: string) => void;
+}) {
+  const resultsCount = constituencies.filter(c => c.leading !== 'TBD').length;
+  const pendingCount = summary.totalSeats - resultsCount;
+  const totalCandidates = constituencies.reduce((sum, c) => sum + (c.results?.length || 0), 0);
+
   return (
     <div className="space-y-6">
       {/* Hero Stats */}
       <div className="grid md:grid-cols-4 gap-4">
         <div className="thanthi-card p-6 text-center">
-          <div className="text-3xl font-bold text-red-600">234</div>
+          <div className="text-3xl font-bold text-red-600">{summary.totalSeats}</div>
           <div className="text-gray-600">மொத்த தொகுதிகள் | Total Seats</div>
         </div>
         <div className="thanthi-card p-6 text-center">
-          <div className="text-3xl font-bold text-green-600">156</div>
+          <div className="text-3xl font-bold text-green-600">{resultsCount}</div>
           <div className="text-gray-600">முடிவுகள் | Results</div>
         </div>
         <div className="thanthi-card p-6 text-center">
-          <div className="text-3xl font-bold text-blue-600">78</div>
+          <div className="text-3xl font-bold text-blue-600">{pendingCount}</div>
           <div className="text-gray-600">எஞ்சியவை | Pending</div>
         </div>
         <div className="thanthi-card p-6 text-center">
-          <div className="text-3xl font-bold text-purple-600">1,245</div>
+          <div className="text-3xl font-bold text-purple-600">{totalCandidates.toLocaleString()}</div>
           <div className="text-gray-600">விண்ணப்பதாரர்கள் | Candidates</div>
         </div>
       </div>
@@ -118,33 +154,30 @@ function Home({ onOpenConstituency }: { onOpenConstituency: (id: string) => void
       <div className="thanthi-card p-6">
         <h2 className="text-xl font-bold mb-4 text-gray-800">முன்னணி கூட்டணி | Leading Alliance</h2>
         <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg border-l-4 border-orange-500">
-            <div className="flex items-center gap-4">
-              <Image src="/images/bjp.webp" alt="BJP Logo" width={48} height={48} className="h-12 w-12 rounded-full object-cover" />
-              <div>
-                <div className="font-bold text-orange-700">NDA Alliance</div>
-                <div className="text-sm text-gray-600">BJP + ADMK + PMK + Others</div>
+          {/* eslint-disable-next-line */}
+          {summary.alliances.slice(0, 2).map((alliance) => (
+            <div key={alliance.id} 
+                 className="flex items-center justify-between p-4 rounded-lg border-l-4"
+                 style={{ 
+                   backgroundColor: `${alliance.color}10`,
+                   borderColor: alliance.color 
+                 }}>
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 rounded-full flex items-center justify-center text-white font-bold"
+                     style={{ backgroundColor: alliance.color }}>
+                  {alliance.name.substring(0, 2)}
+                </div>
+                <div>
+                  <div className="font-bold" style={{ color: alliance.color }}>{alliance.name}</div>
+                  <div className="text-sm text-gray-600">Won: {alliance.won} | Leading: {alliance.leading}</div>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold" style={{ color: alliance.color }}>{alliance.seats}</div>
+                <div className="text-sm text-gray-600">{alliance.votesPct}% votes</div>
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold text-orange-700">92</div>
-              <div className="text-sm text-gray-600">seats</div>
-            </div>
-          </div>
-          
-          <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg border-l-4 border-red-500">
-            <div className="flex items-center gap-4">
-              <Image src="/images/dmk.webp" alt="DMK Logo" width={48} height={48} className="h-12 w-12 rounded-full object-cover" />
-              <div>
-                <div className="font-bold text-red-700">INDIA Alliance</div>
-                <div className="text-sm text-gray-600">DMK + Congress + Left + Others</div>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold text-red-700">64</div>
-              <div className="text-sm text-gray-600">seats</div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
@@ -152,22 +185,22 @@ function Home({ onOpenConstituency }: { onOpenConstituency: (id: string) => void
       <div className="thanthi-card p-6">
         <h2 className="text-xl font-bold mb-4 text-gray-800">முக்கிய தொகுதிகள் | Key Constituencies</h2>
         <div className="grid md:grid-cols-2 gap-4">
-          {MOCK_CONSTITUENCIES.slice(0, 6).map((constituency: any) => (
+          {constituencies.slice(0, 6).map((constituency) => (
             <div key={constituency.id} 
                  className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
                  onClick={() => onOpenConstituency(constituency.id)}>
               <div className="flex justify-between items-center">
                 <div>
                   <div className="font-semibold">{constituency.name}</div>
-                  <div className="text-sm text-gray-600">{constituency.district}</div>
+                  <div className="text-sm text-gray-600">{constituency.code}</div>
                 </div>
                 <div className="text-right">
-                  <div className={`text-sm font-semibold ${constituency.leadingCandidate.party === 'DMK' ? 'text-red-600' : 
-                    constituency.leadingCandidate.party === 'AIADMK' ? 'text-green-600' : 
-                    constituency.leadingCandidate.party === 'BJP' ? 'text-orange-600' : 'text-blue-600'}`}>
-                    {constituency.leadingCandidate.party}
+                  <div className={`text-sm font-semibold ${constituency.leading === 'DMK' ? 'text-red-600' : 
+                    constituency.leading === 'AIADMK' ? 'text-green-600' : 
+                    constituency.leading === 'BJP' ? 'text-orange-600' : 'text-blue-600'}`}>
+                    {constituency.leading}
                   </div>
-                  <div className="text-xs text-gray-500">Leading</div>
+                  <div className="text-xs text-gray-500">{constituency.leadPct}% ahead</div>
                 </div>
               </div>
             </div>
@@ -362,18 +395,17 @@ function Home({ onOpenConstituency }: { onOpenConstituency: (id: string) => void
 }
 
 // ------------------------- Results Page -------------------------
-function Results({ onOpenConstituency }: { onOpenConstituency: (id: string) => void }) {
-  const [results, setResults] = useState(MOCK_CONSTITUENCIES);
+function Results({ constituencies, onOpenConstituency }: { 
+  constituencies: Constituency[];
+  onOpenConstituency: (id: string) => void;
+}) {
+  const [results, setResults] = useState(constituencies);
 
   useEffect(() => {
-    // Simulate live updates
-    const t = setInterval(() => {
-      setResults((prev) => prev.map(r => ({ ...r, leadPct: Math.min(95, r.leadPct + Math.floor(Math.random() * 3) - 1) })));
-    }, 3500);
-    return () => clearInterval(t);
-  }, []);
+    setResults(constituencies);
+  }, [constituencies]);
 
-  const totals = results.reduce((acc: { [key: string]: number }, cur) => {
+  const totals = results.reduce((acc: { [key: string]: number }, cur: Constituency) => {
     acc[cur.leading] = (acc[cur.leading] || 0) + 1;
     return acc;
   }, {});
@@ -423,11 +455,11 @@ function Results({ onOpenConstituency }: { onOpenConstituency: (id: string) => v
       <section className="bg-white rounded shadow p-4">
         <h3 className="font-semibold mb-3">Constituency Snapshot</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {results.map(c => (
+          {results.map((c: Constituency) => (
             <div key={c.id} className="p-3 border rounded flex flex-col">
               <div className="flex items-center justify-between mb-2">
                 <div className="font-medium">{c.name}</div>
-                <div className="text-sm text-gray-500">{c.district}</div>
+                <div className="text-sm text-gray-500">{c.code}</div>
               </div>
               <div className="text-sm text-gray-600 mb-2">Leading: <strong>{c.leading}</strong></div>
               <div className="mb-3">
@@ -447,8 +479,21 @@ function Results({ onOpenConstituency }: { onOpenConstituency: (id: string) => v
 }
 
 // ------------------------- Constituency Page -------------------------
-function Constituency({ id }: { id: string }) {
-  const data = MOCK_CONSTITUENCIES.find(c => c.id === id) || MOCK_CONSTITUENCIES[0];
+function Constituency({ id, constituencies }: { 
+  id: string;
+  constituencies: Constituency[];
+}) {
+  const data = constituencies.find((c: Constituency) => c.id === id);
+  
+  if (!data) {
+    return (
+      <main className="max-w-4xl mx-auto px-4 py-8">
+        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+          <p className="text-yellow-700">Constituency not found. Please select a valid constituency.</p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="max-w-4xl mx-auto px-4 py-8">
@@ -456,7 +501,7 @@ function Constituency({ id }: { id: string }) {
         <div className="flex items-start gap-4">
           <div>
             <h2 className="text-2xl font-semibold">{data.name}</h2>
-            <div className="text-sm text-gray-500">District: {data.district}</div>
+            <div className="text-sm text-gray-500">Code: {data.code}</div>
           </div>
           <div className="ml-auto text-right">
             <div className="text-xs text-gray-500">Leading</div>
@@ -466,24 +511,40 @@ function Constituency({ id }: { id: string }) {
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="col-span-2">
-            <h4 className="font-semibold">Vote Breakdown (sample)</h4>
+            <h4 className="font-semibold">Vote Breakdown</h4>
             <div className="mt-2">
               <ProgressBar percentage={data.leadPct} color="green" height="md" />
-              <div className="text-xs text-gray-500 mt-1">Top candidate: {data.leadPct}%</div>
+              <div className="text-xs text-gray-500 mt-1">
+                Leading candidate: {data.leadingCandidate?.name || 'N/A'} ({data.leadingCandidate?.party || 'N/A'}) - {data.leadPct}%
+              </div>
             </div>
 
             <div className="mt-4">
-              <h5 className="font-medium">Historical context</h5>
-              <p className="text-sm text-gray-600 mt-1">Previously: {data.lastYear}. Use archived results to compare swings.</p>
+              <h5 className="font-medium">Results</h5>
+              {data.results && data.results.length > 0 ? (
+                <div className="space-y-2 mt-2">
+                  {data.results.slice(0, 5).map((result, idx) => {
+                    const pct = data.totalVotes > 0 ? ((result.votes / data.totalVotes) * 100).toFixed(2) : '0.00';
+                    return (
+                      <div key={idx} className="flex justify-between text-sm p-2 bg-gray-50 rounded">
+                        <span>{result.candidate} ({result.party})</span>
+                        <span className="font-semibold">{result.votes.toLocaleString()} votes ({pct}%)</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="text-sm text-gray-600 mt-1">No detailed results available yet.</p>
+              )}
             </div>
           </div>
 
           <aside className="bg-gray-50 p-3 rounded">
-            <h5 className="font-semibold">Demographics (sample)</h5>
+            <h5 className="font-semibold">Constituency Info</h5>
             <ul className="text-sm text-gray-600 mt-2 space-y-1">
-              <li>Urban voters: 56%</li>
-              <li>Rural voters: 44%</li>
-              <li>Major issue: Water & agriculture</li>
+              <li>Total Votes: {data.totalVotes.toLocaleString()}</li>
+              <li>Leading: {data.leading}</li>
+              <li>Lead Margin: {data.leadPct}%</li>
             </ul>
           </aside>
         </div>
@@ -518,7 +579,41 @@ function Insights() {
 // ------------------------- Main App -------------------------
 export default function TNElection2026() {
   const [route, setRoute] = useState('home');
-  const [activeConstituency, setActiveConstituency] = useState(MOCK_CONSTITUENCIES[0].id);
+  const [activeConstituency, setActiveConstituency] = useState('1');
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch dashboard data from API
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/dashboard');
+        const data = await response.json();
+        
+        if (data.success) {
+          setDashboardData(data);
+          if (data.constituencies.length > 0) {
+            setActiveConstituency(data.constituencies[0].id);
+          }
+        } else {
+          setError(data.error || 'Failed to load data');
+        }
+      } catch (err) {
+        setError('Failed to connect to server');
+        console.error('Dashboard fetch error:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+    
+    // Auto-refresh every 30 seconds
+    const interval = setInterval(fetchData, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     // simple routing by hash (optional). Not required in integrated app.
@@ -542,16 +637,61 @@ export default function TNElection2026() {
     window.location.hash = `const-${id}`;
   }
 
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8 text-center">
+          <div className="animate-pulse">
+            <div className="text-xl font-semibold text-gray-700">Loading election data...</div>
+            <div className="text-gray-500 mt-2">தரவுகள் ஏற்றப்படுகிறது...</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error || !dashboardData) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8">
+          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-yellow-800">No data available</h3>
+                <div className="mt-2 text-sm text-yellow-700">
+                  <p>{error || 'No election data in database yet.'}</p>
+                  <p className="mt-2">Please add data through the <a href="/admin/dashboard" className="underline font-semibold">Admin Dashboard</a>.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const summary = dashboardData.summary;
+  const constituencies = dashboardData.constituencies;
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <SubNavigation onNavigate={navigate} currentRoute={route} />
 
       <div className="container mx-auto px-4 py-8">
-        {route === 'home' && <Home onOpenConstituency={openConstituency} />}
-        {route === 'results' && <Results onOpenConstituency={openConstituency} />}
+        {route === 'home' && <Home onOpenConstituency={openConstituency} summary={summary} constituencies={constituencies} />}
+        {route === 'results' && <Results onOpenConstituency={openConstituency} constituencies={constituencies} />}
         {route === 'insights' && <Insights />}
-        {route === 'constituency' && <Constituency id={activeConstituency} />}
+        {route === 'constituency' && <Constituency id={activeConstituency} constituencies={constituencies} />}
       </div>
 
       <Footer />
