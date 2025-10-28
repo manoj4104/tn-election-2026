@@ -22,7 +22,7 @@ const Navigation = () => {
   }, []);
 
   return (
-    <nav className="bg-white shadow-sm">
+    <nav className="bg-white shadow-sm mb-6">
       {/* Red Banner */}
       <div className="w-full bg-red-700 py-1">
         <div className="container mx-auto px-4">
