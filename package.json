@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.19.1",
+    "@vercel/speed-insights": "^1.2.0",
     "cheerio": "^1.1.2",
     "next": "^16.0.0",
     "react": "^19.2.0",
