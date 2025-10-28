@@ -9,16 +9,16 @@ export default function VotingPage() {
       <Navigation />
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-12">
+      <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               வாக்களிப்பு | Voting Information
             </h1>
-            <p className="text-xl text-blue-100">
+            <p className="text-xl text-red-100">
               தமிழ்நாடு சட்டமன்றத் தேர்தல் 2026 - வாக்காளர் தகவல்
             </p>
-            <p className="text-lg text-blue-100 mt-2">
+            <p className="text-lg text-red-100 mt-2">
               Tamil Nadu Assembly Election 2026 - Voter Information
             </p>
           </div>
@@ -30,10 +30,10 @@ export default function VotingPage() {
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">முக்கிய தேதிகள் | Important Dates</h2>
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-blue-50 border-l-4 border-blue-600 p-4 rounded">
-              <div className="text-blue-600 font-semibold mb-2">Last Date for Registration</div>
+            <div className="bg-red-50 border-l-4 border-red-600 p-4 rounded">
+              <div className="text-red-600 font-semibold mb-2">Last Date for Registration</div>
               <div className="text-gray-700">பதிவுக்கான கடைசி தேதி</div>
-              <div className="text-2xl font-bold text-blue-700 mt-2">March 15, 2026</div>
+              <div className="text-2xl font-bold text-red-700 mt-2">March 15, 2026</div>
             </div>
             <div className="bg-green-50 border-l-4 border-green-600 p-4 rounded">
               <div className="text-green-600 font-semibold mb-2">Polling Day</div>
@@ -52,8 +52,8 @@ export default function VotingPage() {
         <div className="grid md:grid-cols-2 gap-8 mb-8">
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                 </svg>
               </div>
@@ -83,7 +83,7 @@ export default function VotingPage() {
                 <span className="text-gray-700">Resident of Tamil Nadu</span>
               </li>
             </ul>
-            <button className="w-full px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium">
+            <button className="w-full px-6 py-3 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors font-medium">
               Register Now | இப்போதே பதிவு செய்க
             </button>
           </div>
@@ -124,8 +124,8 @@ export default function VotingPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">எவ்வாறு வாக்களிப்பது | How to Vote</h2>
           <div className="grid md:grid-cols-4 gap-6">
             <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">1</span>
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-red-600">1</span>
               </div>
               <h3 className="font-bold text-gray-900 mb-2">அடையாள அட்டை</h3>
               <p className="text-sm text-gray-600">Bring your Voter ID or other valid identity proof</p>
@@ -207,7 +207,7 @@ export default function VotingPage() {
             <h3 className="text-xl font-bold text-gray-900 mb-4">தொடர்பு தகவல் | Contact Information</h3>
             <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <svg className="w-6 h-6 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
                 <div>
