@@ -1,0 +1,79 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Daily Thanthi theme tokens */
+:root {
+  --thanthi-red: #dc2626;
+  --thanthi-dark-red: #b91c1c;
+  --thanthi-light-red: #fee2e2;
+  --thanthi-blue: #1e40af;
+  --thanthi-gold: #f59e0b;
+  --thanthi-gray: #6b7280;
+  --thanthi-dark-gray: #374151;
+}
+
+/* Base resets and global styles layered for Tailwind */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+    background-color: #f8fafc; /* light slate background */
+  }
+
+  body {
+    margin: 0;
+    color: #1f2937; /* gray-800 */
+    line-height: 1.6;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Small utility additions */
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+}
+
+/* Reusable components */
+@layer components {
+  .thanthi-button {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md font-medium shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500/40 focus:ring-offset-2;
+  }
+
+  .thanthi-card {
+    @apply bg-white rounded-lg shadow-md border border-gray-100;
+  }
+
+  .section-title {
+    @apply text-xl md:text-2xl font-bold text-gray-800 mb-4;
+  }
+}
+
+/* Custom animations */
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+@layer utilities {
+  .animate-marquee {
+    animation: marquee 25s linear infinite;
+  }
+}
