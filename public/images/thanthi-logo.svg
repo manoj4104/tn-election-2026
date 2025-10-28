@@ -1,0 +1,8 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="40" fill="#dc2626" rx="4"/>
+  <text x="10" y="16" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">Daily</text>
+  <text x="10" y="28" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">Thanthi</text>
+  <text x="10" y="36" font-family="Arial, sans-serif" font-size="6" fill="#fca5a5">தினத்தந்தி</text>
+  <circle cx="95" cy="20" r="15" fill="white" opacity="0.2"/>
+  <path d="M85 20 L90 15 L100 20 L90 25 Z" fill="white"/>
+</svg>

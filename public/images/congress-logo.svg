@@ -1,0 +1,5 @@
+<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="20" cy="20" r="18" fill="#2563eb"/>
+  <path d="M15 15 Q20 10 25 15 Q20 20 25 25 Q20 30 15 25 Q20 20 15 15 Z" fill="white"/>
+  <text x="20" y="35" font-size="6" text-anchor="middle" fill="#2563eb" font-weight="bold">CONGRESS</text>
+</svg>

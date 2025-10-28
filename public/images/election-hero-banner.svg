@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400">
+  <defs>
+    <linearGradient id="mainBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dc2626;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#b91c1c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#991b1b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="overlay" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#000;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#000;stop-opacity:0" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="400" fill="url(#mainBg)"/>
+  <rect width="1200" height="400" fill="url(#overlay)"/>
+  
+  <!-- Tamil Nadu outline -->
+  <path d="M850 100 L920 80 L980 100 L1020 140 L1010 200 L980 260 L930 290 L880 280 L840 250 L820 200 L830 150 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  
+  <!-- Main Title -->
+  <text x="60" y="120" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="white">தேர்தல் 2026</text>
+  <text x="60" y="180" font-family="Arial, sans-serif" font-size="54" font-weight="bold" fill="#fef3c7">ELECTION 2026</text>
+  <text x="60" y="220" font-family="Arial, sans-serif" font-size="20" fill="#fca5a5">Tamil Nadu Assembly Elections</text>
+  <text x="60" y="250" font-family="Arial, sans-serif" font-size="16" fill="rgba(255,255,255,0.9)">Live Results, Real-time Analysis & Constituency Updates</text>
+  
+  <!-- Voting booth -->
+  <rect x="750" y="200" width="80" height="120" fill="rgba(255,255,255,0.2)" rx="5"/>
+  <rect x="760" y="210" width="60" height="100" fill="rgba(255,255,255,0.1)"/>
+  
+  <!-- Ballot box -->
+  <rect x="770" y="240" width="40" height="30" fill="rgba(255,255,255,0.3)" rx="3"/>
+  <rect x="775" y="230" width="30" height="5" fill="rgba(255,255,255,0.4)"/>
+  
+  <!-- Vote symbols -->
+  <circle cx="900" cy="120" r="12" fill="#4ade80"/>
+  <text x="920" y="128" font-family="Arial" font-size="14" fill="white">DMK</text>
+  
+  <circle cx="900" cy="150" r="12" fill="#3b82f6"/>
+  <text x="920" y="158" font-family="Arial" font-size="14" fill="white">AIADMK</text>
+  
+  <circle cx="900" cy="180" r="12" fill="#f59e0b"/>
+  <text x="920" y="188" font-family="Arial" font-size="14" fill="white">BJP</text>
+  
+  <!-- Live indicator -->
+  <circle cx="1050" cy="80" r="8" fill="#ef4444">
+    <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <text x="1070" y="87" font-family="Arial" font-size="14" font-weight="bold" fill="white">LIVE</text>
+  
+  <!-- Decorative elements -->
+  <circle cx="1100" cy="300" r="3" fill="rgba(255,255,255,0.3)"/>
+  <circle cx="1120" cy="280" r="2" fill="rgba(255,255,255,0.2)"/>
+  <circle cx="1080" cy="320" r="1" fill="rgba(255,255,255,0.4)"/>
+  
+  <!-- Statistics box -->
+  <rect x="750" y="50" width="200" height="80" fill="rgba(255,255,255,0.1)" rx="8" stroke="rgba(255,255,255,0.2)"/>
+  <text x="760" y="75" font-family="Arial" font-size="12" fill="rgba(255,255,255,0.8)">Total Constituencies</text>
+  <text x="760" y="95" font-family="Arial" font-size="24" font-weight="bold" fill="white">234</text>
+  <text x="760" y="115" font-family="Arial" font-size="12" fill="rgba(255,255,255,0.8)">Voters: 6.2 Crores</text>
+</svg>

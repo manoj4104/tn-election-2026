@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fef3c7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bg4)"/>
+  
+  <!-- Scales of Justice -->
+  <rect x="190" y="50" width="6" height="120" fill="#8b5a2b"/>
+  <rect x="170" y="40" width="46" height="8" fill="#8b5a2b" rx="4"/>
+  
+  <!-- Left scale plate -->
+  <ellipse cx="160" cy="80" rx="25" ry="8" fill="#d4af37"/>
+  <line x1="185" y1="80" x2="160" y2="80" stroke="#8b5a2b" stroke-width="2"/>
+  
+  <!-- Right scale plate -->
+  <ellipse cx="226" cy="85" rx="25" ry="8" fill="#d4af37"/>
+  <line x1="201" y1="85" x2="226" y2="85" stroke="#8b5a2b" stroke-width="2"/>
+  
+  <!-- Scale chains -->
+  <line x1="185" y1="72" x2="160" y2="72" stroke="#8b5a2b" stroke-width="1"/>
+  <line x1="185" y1="76" x2="160" y2="76" stroke="#8b5a2b" stroke-width="1"/>
+  <line x1="201" y1="77" x2="226" y2="77" stroke="#8b5a2b" stroke-width="1"/>
+  <line x1="201" y1="81" x2="226" y2="81" stroke="#8b5a2b" stroke-width="1"/>
+  
+  <!-- Base -->
+  <rect x="175" y="170" width="36" height="12" fill="#8b5a2b" rx="6"/>
+  
+  <!-- Document/Report -->
+  <rect x="80" y="120" width="60" height="80" fill="#fff" stroke="#ddd" rx="4"/>
+  <line x1="90" y1="135" x2="130" y2="135" stroke="#666" stroke-width="2"/>
+  <line x1="90" y1="145" x2="125" y2="145" stroke="#666" stroke-width="1"/>
+  <line x1="90" y1="155" x2="130" y2="155" stroke="#666" stroke-width="1"/>
+  <line x1="90" y1="165" x2="120" y2="165" stroke="#666" stroke-width="1"/>
+  <line x1="90" y1="175" x2="125" y2="175" stroke="#666" stroke-width="1"/>
+  <line x1="90" y1="185" x2="115" y2="185" stroke="#666" stroke-width="1"/>
+  
+  <!-- Seal/Stamp -->
+  <circle cx="250" cy="150" r="20" fill="#dc2626" opacity="0.8"/>
+  <text x="250" y="155" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">EC</text>
+  
+  <!-- Check mark -->
+  <path d="M300 120 L315 135 L340 110" stroke="#22c55e" stroke-width="4" fill="none"/>
+  
+  <!-- Title elements -->
+  <rect x="50" y="220" width="300" height="60" fill="rgba(255,255,255,0.9)" rx="8"/>
+  <text x="200" y="240" font-family="Arial" font-size="12" fill="#8b5a2b" text-anchor="middle" font-weight="bold">ELECTION COMMISSION</text>
+  <text x="200" y="255" font-family="Arial" font-size="10" fill="#666" text-anchor="middle">तेर्तल आणयम</text>
+  <text x="200" y="270" font-family="Arial" font-size="8" fill="#666" text-anchor="middle">Free & Fair Elections Report</text>
+</svg>

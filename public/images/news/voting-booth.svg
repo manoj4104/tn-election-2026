@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e3f2fd;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#bbdefb;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bg)"/>
+  
+  <!-- Voting booth -->
+  <rect x="120" y="80" width="160" height="180" fill="#2196f3" stroke="#1976d2" stroke-width="2"/>
+  <rect x="130" y="90" width="140" height="160" fill="#fff"/>
+  
+  <!-- Voting panel -->
+  <rect x="140" y="110" width="120" height="120" fill="#f5f5f5" stroke="#ccc"/>
+  
+  <!-- Buttons -->
+  <circle cx="170" cy="140" r="8" fill="#4caf50"/>
+  <circle cx="170" cy="170" r="8" fill="#ff5722"/>
+  <circle cx="170" cy="200" r="8" fill="#2196f3"/>
+  
+  <!-- Text -->
+  <text x="200" y="145" font-family="Arial" font-size="10" fill="#333">DMK</text>
+  <text x="200" y="175" font-family="Arial" font-size="10" fill="#333">AIADMK</text>
+  <text x="200" y="205" font-family="Arial" font-size="10" fill="#333">BJP</text>
+  
+  <!-- Person voting -->
+  <circle cx="80" cy="160" r="20" fill="#ffab91"/>
+  <rect x="70" y="180" width="20" height="40" fill="#2196f3"/>
+  <rect x="65" y="190" width="30" height="30" fill="#1976d2"/>
+  
+  <!-- Vote icon -->
+  <path d="M340 120 l20 20 l40 -40" stroke="#4caf50" stroke-width="4" fill="none"/>
+</svg>

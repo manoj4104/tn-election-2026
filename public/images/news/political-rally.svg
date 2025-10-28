@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fff3e0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffe0b2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bg1)"/>
+  
+  <!-- Podium -->
+  <rect x="100" y="180" width="200" height="80" fill="#8d6e63"/>
+  <rect x="110" y="170" width="180" height="10" fill="#5d4037"/>
+  
+  <!-- Microphone -->
+  <rect x="195" y="120" width="10" height="50" fill="#424242"/>
+  <ellipse cx="200" cy="115" rx="8" ry="12" fill="#757575"/>
+  
+  <!-- Speaker figure -->
+  <circle cx="200" cy="90" r="15" fill="#ffab91"/>
+  <rect x="190" y="105" width="20" height="30" fill="#1976d2"/>
+  <rect x="185" y="135" width="30" height="45" fill="#1565c0"/>
+  
+  <!-- Arms gesturing -->
+  <line x1="185" y1="120" x2="165" y2="110" stroke="#ffab91" stroke-width="4"/>
+  <line x1="215" y1="120" x2="235" y2="110" stroke="#ffab91" stroke-width="4"/>
+  
+  <!-- Crowd -->
+  <circle cx="80" cy="220" r="8" fill="#ffab91"/>
+  <circle cx="120" cy="230" r="8" fill="#ffcc80"/>
+  <circle cx="280" cy="225" r="8" fill="#ffab91"/>
+  <circle cx="320" cy="235" r="8" fill="#ffcc80"/>
+  
+  <!-- Speech bubbles -->
+  <ellipse cx="300" cy="80" rx="35" rx="20" fill="#fff" stroke="#ccc"/>
+  <text x="285" y="85" font-family="Arial" font-size="10" fill="#333">Tamil Nadu!</text>
+  
+  <!-- Flag -->
+  <rect x="320" y="40" width="3" height="60" fill="#8d6e63"/>
+  <rect x="323" y="40" width="30" height="20" fill="#ff5722"/>
+  <rect x="323" y="60" width="30" height="20" fill="#fff"/>
+</svg>

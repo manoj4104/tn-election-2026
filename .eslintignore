@@ -1,2 +1,10 @@
-// Suppress inline style warnings for dynamic party colors
-/* eslint-disable */
+# Ignore non-JavaScript configuration files
+.vercelignore
+.gitignore
+.prettierignore
+*.md
+node_modules/
+.next/
+out/
+build/
+dist/

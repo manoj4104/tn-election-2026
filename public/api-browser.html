@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Browser - Election 2026</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: #f3f4f6;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #dc2626;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 2rem;
+    }
+    .controls {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+    .control-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #374151;
+    }
+    select, input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 0.875rem;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      background: #dc2626;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #b91c1c;
+    }
+    .results {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .meta {
+      background: #f9fafb;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    .meta strong {
+      color: #111827;
+    }
+    .pagination {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .pagination button {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+    .pagination button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    pre {
+      background: #1f2937;
+      color: #f3f4f6;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 API Browser</h1>
+    <p class="subtitle">Test pagination and filtering</p>
+
+    <div class="controls">
+      <div class="control-row">
+        <div>
+          <label for="endpoint">Endpoint</label>
+          <select id="endpoint" title="Select API endpoint">
+            <option value="news">News Articles</option>
+            <option value="parties">Parties</option>
+            <option value="constituencies">Constituencies</option>
+            <option value="candidates">Candidates</option>
+            <option value="results">Results</option>
+          </select>
+        </div>
+        <div>
+          <label for="page">Page</label>
+          <input type="number" id="page" value="1" min="1" title="Page number">
+        </div>
+        <div>
+          <label for="limit">Limit</label>
+          <input type="number" id="limit" value="20" min="1" max="100" title="Items per page">
+        </div>
+        <div>
+          <label for="search">Search</label>
+          <input type="text" id="search" placeholder="Search..." title="Search query">
+        </div>
+      </div>
+
+      <div class="control-row">
+        <div>
+          <label for="partyId">Party ID</label>
+          <input type="number" id="partyId" placeholder="Filter by party" title="Party ID filter">
+        </div>
+        <div>
+          <label for="constituencyId">Constituency ID</label>
+          <input type="number" id="constituencyId" placeholder="Filter by constituency" title="Constituency ID filter">
+        </div>
+        <div>
+          <label for="candidateId">Candidate ID</label>
+          <input type="number" id="candidateId" placeholder="Filter by candidate" title="Candidate ID filter">
+        </div>
+        <div>
+          <label for="published">Published</label>
+          <select id="published" title="Filter by published status">
+            <option value="">All</option>
+            <option value="true">Published</option>
+            <option value="false">Unpublished</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="control-row">
+        <div>
+          <label for="leading">Leading</label>
+          <select id="leading" title="Filter by leading status">
+            <option value="">All</option>
+            <option value="true">Leading</option>
+            <option value="false">Not Leading</option>
+          </select>
+        </div>
+        <div>
+          <label for="won">Won</label>
+          <select id="won" title="Filter by won status">
+            <option value="">All</option>
+            <option value="true">Won</option>
+            <option value="false">Not Won</option>
+          </select>
+        </div>
+      </div>
+
+      <button onclick="fetchData()">Fetch Data</button>
+    </div>
+
+    <div class="results">
+      <div id="meta" class="meta"></div>
+      <div id="pagination" class="pagination"></div>
+      <pre id="output">Click "Fetch Data" to load results...</pre>
+    </div>
+  </div>
+
+  <script>
+    let currentMeta = null
+
+    async function fetchData(customPage = null) {
+      const endpoint = document.getElementById('endpoint').value
+      const page = customPage || document.getElementById('page').value
+      const limit = document.getElementById('limit').value
+      const search = document.getElementById('search').value
+      const partyId = document.getElementById('partyId').value
+      const constituencyId = document.getElementById('constituencyId').value
+      const candidateId = document.getElementById('candidateId').value
+      const published = document.getElementById('published').value
+      const leading = document.getElementById('leading').value
+      const won = document.getElementById('won').value
+
+      const params = new URLSearchParams()
+      params.append('page', page)
+      params.append('limit', limit)
+      if (search) params.append('search', search)
+      if (partyId) params.append('partyId', partyId)
+      if (constituencyId) params.append('constituencyId', constituencyId)
+      if (candidateId) params.append('candidateId', candidateId)
+      if (published) params.append('published', published)
+      if (leading) params.append('leading', leading)
+      if (won) params.append('won', won)
+
+      const url = `/api/${endpoint}?${params.toString()}`
+      
+      document.getElementById('output').textContent = 'Loading...'
+      document.getElementById('meta').innerHTML = '<div class="loading">Fetching data...</div>'
+
+      try {
+        const response = await fetch(url)
+        const data = await response.json()
+
+        if (data.meta) {
+          currentMeta = data.meta
+          document.getElementById('meta').innerHTML = `
+            <strong>Results:</strong> ${data.data.length} of ${data.meta.total} total | 
+            <strong>Page:</strong> ${data.meta.page} of ${data.meta.totalPages} | 
+            <strong>URL:</strong> <code>${url}</code>
+          `
+          
+          renderPagination(data.meta)
+        }
+
+        document.getElementById('output').textContent = JSON.stringify(data, null, 2)
+        document.getElementById('page').value = data.meta?.page || page
+      } catch (error) {
+        document.getElementById('output').textContent = 'Error: ' + error.message
+        document.getElementById('meta').innerHTML = '<div style="color: #dc2626;">Failed to fetch data</div>'
+      }
+    }
+
+    function renderPagination(meta) {
+      const paginationDiv = document.getElementById('pagination')
+      paginationDiv.innerHTML = `
+        <button onclick="fetchData(1)" ${meta.page === 1 ? 'disabled' : ''}>First</button>
+        <button onclick="fetchData(${meta.page - 1})" ${!meta.hasPrev ? 'disabled' : ''}>Previous</button>
+        <button onclick="fetchData(${meta.page + 1})" ${!meta.hasNext ? 'disabled' : ''}>Next</button>
+        <button onclick="fetchData(${meta.totalPages})" ${meta.page === meta.totalPages ? 'disabled' : ''}>Last</button>
+      `
+    }
+
+    // Load on startup
+    fetchData()
+  </script>
+</body>
+</html>

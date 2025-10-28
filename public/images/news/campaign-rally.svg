@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="rallyBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fff3e0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffe0b2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#rallyBg)"/>
+  
+  <!-- Stage -->
+  <rect x="80" y="180" width="240" height="80" fill="#8d6e63"/>
+  <rect x="85" y="170" width="230" height="10" fill="#5d4037"/>
+  
+  <!-- Podium -->
+  <rect x="180" y="140" width="40" height="40" fill="#6d4c41"/>
+  <rect x="175" y="135" width="50" height="5" fill="#5d4037"/>
+  
+  <!-- Microphone -->
+  <rect x="195" y="110" width="6" height="30" fill="#424242"/>
+  <ellipse cx="198" cy="105" rx="5" ry="8" fill="#757575"/>
+  
+  <!-- Speaker figure -->
+  <circle cx="200" cy="85" r="12" fill="#ffab91"/>
+  <rect x="192" y="97" width="16" height="25" fill="#1976d2"/>
+  <rect x="188" y="122" width="24" height="18" fill="#1565c0"/>
+  
+  <!-- Arms gesturing -->
+  <line x1="188" y1="110" x2="170" y2="100" stroke="#ffab91" stroke-width="3"/>
+  <line x1="212" y1="110" x2="230" y2="100" stroke="#ffab91" stroke-width="3"/>
+  
+  <!-- Crowd -->
+  <circle cx="100" cy="220" r="6" fill="#ffab91"/>
+  <circle cx="130" cy="230" r="6" fill="#ffcc80"/>
+  <circle cx="270" cy="225" r="6" fill="#ffab91"/>
+  <circle cx="300" cy="235" r="6" fill="#ffcc80"/>
+  <circle cx="120" cy="240" r="5" fill="#ffab91"/>
+  <circle cx="280" cy="240" r="5" fill="#ffcc80"/>
+  
+  <!-- Crowd bodies -->
+  <rect x="95" y="226" width="10" height="15" fill="#2196f3"/>
+  <rect x="125" y="236" width="10" height="15" fill="#4caf50"/>
+  <rect x="265" y="231" width="10" height="15" fill="#ff5722"/>
+  <rect x="295" y="241" width="10" height="15" fill="#9c27b0"/>
+  
+  <!-- Flags -->
+  <rect x="50" y="40" width="2" height="50" fill="#8d6e63"/>
+  <rect x="52" y="40" width="25" height="15" fill="#ff5722"/>
+  
+  <rect x="330" y="50" width="2" height="40" fill="#8d6e63"/>
+  <rect x="332" y="50" width="20" height="12" fill="#4caf50"/>
+  
+  <!-- Speech bubbles -->
+  <ellipse cx="320" cy="80" rx="30" ry="15" fill="#fff" stroke="#ccc"/>
+  <text x="305" y="85" font-family="Arial" font-size="8" fill="#333">Tamil Nadu!</text>
+  
+  <!-- Banner -->
+  <rect x="50" y="260" width="300" height="20" fill="rgba(220,38,38,0.8)" rx="10"/>
+  <text x="200" y="272" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">ELECTION 2026 CAMPAIGN</text>
+</svg>
