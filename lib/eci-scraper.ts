@@ -83,7 +83,7 @@ export class ECIResultsScraper {
       const constituencies: { name: string; code: string }[] = [];
 
       // Parse constituency links
-      $('select[name="ac"] option').each((_, element) => {
+      $('select[name="ac"] option').each((_: number, element: cheerio.Element) => {
         const value = $(element).attr('value');
         const name = $(element).text().trim();
         
@@ -118,7 +118,7 @@ export class ECIResultsScraper {
       const candidates: ScrapedResult['candidates'] = [];
 
       // Parse candidate table
-      $('table.table tr').each((index, row) => {
+      $('table.table tr').each((index: number, row: cheerio.Element) => {
         // Skip header row
         if (index === 0) return;
 
