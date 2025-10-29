@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { requireApiKey } from '@/lib/auth'
 
 // One-time seed endpoint for creating demo polls in prod
 // Protection: requires ?key=SEED_SECRET or allowed in development
@@ -7,7 +8,11 @@ export async function POST(req: Request) {
   try {
     const url = new URL(req.url)
     const key = url.searchParams.get('key')
-    const allowed = process.env.NODE_ENV !== 'production' || (process.env.SEED_SECRET && key === process.env.SEED_SECRET)
+    // Allow if in dev, or if SEED_SECRET matches, or if ADMIN_API_KEY header is valid
+    const isDev = process.env.NODE_ENV !== 'production'
+    const bySecret = !!(process.env.SEED_SECRET && key === process.env.SEED_SECRET)
+    const byAdminKey = !requireApiKey(req)
+    const allowed = isDev || bySecret || byAdminKey
 
     if (!allowed) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -95,7 +100,69 @@ export async function POST(req: Request) {
       include: { options: true },
     })
 
-    return NextResponse.json({ status: 'seeded', polls: [poll1, poll2] })
+    // Additional demo polls to make total 5
+    const poll3 = await prisma.poll.create({
+      data: {
+        title: 'How satisfied are you with the current state government?',
+        titleTamil: 'தற்போதைய மாநில அரசின் பணியால் நீங்கள் எவ்வளவு திருப்தி?',
+        question: 'Rate the government performance',
+        questionTamil: 'அரசின் செயல்திறனை மதிப்பிடுங்கள்',
+        type: 'satisfaction',
+        status: 'active',
+        options: {
+          create: [
+            { text: 'Very Satisfied', textTamil: 'மிகவும் திருப்தி' },
+            { text: 'Satisfied', textTamil: 'திருப்தி' },
+            { text: 'Neutral', textTamil: 'நடுநிலை' },
+            { text: 'Dissatisfied', textTamil: 'திருப்தியில்லை' },
+            { text: 'Very Dissatisfied', textTamil: 'மிகவும் திருப்தியில்லை' },
+          ],
+        },
+      },
+      include: { options: true },
+    })
+
+    const poll4 = await prisma.poll.create({
+      data: {
+        title: 'What is the most important issue in your area?',
+        titleTamil: 'உங்கள் பகுதியில் மிக முக்கியமான பிரச்சினை எது?',
+        question: 'Choose the top issue influencing your vote',
+        questionTamil: 'உங்கள் வாக்கை பாதிக்கும் முக்கிய பிரச்சினையைத் தேர்ந்தெடுக்கவும்',
+        type: 'opinion',
+        status: 'active',
+        options: {
+          create: [
+            { text: 'Jobs/Economy', textTamil: 'வேலை/பொருளாதாரம்' },
+            { text: 'Infrastructure', textTamil: 'அடிப்படை வசதிகள்' },
+            { text: 'Law & Order', textTamil: 'சட்டம் மற்றும் ஒழுங்கு' },
+            { text: 'Education/Health', textTamil: 'கல்வி/மருத்துவம்' },
+          ],
+        },
+      },
+      include: { options: true },
+    })
+
+    const poll5 = await prisma.poll.create({
+      data: {
+        title: 'Who will win Coimbatore South?',
+        titleTamil: 'கோயம்புத்தூர் தெற்கு யார் வெல்வார்?',
+        question: 'Which party will secure Coimbatore South?',
+        questionTamil: 'கோயம்புத்தூர் தெற்கை எந்தக் கட்சி வெல்லும்?',
+        type: 'prediction',
+        status: 'active',
+        options: {
+          create: [
+            { text: 'DMK', partyId: dmk.id },
+            { text: 'AIADMK', partyId: aiadmk.id },
+            { text: 'BJP', partyId: bjp.id },
+            { text: 'Independent/Other' },
+          ],
+        },
+      },
+      include: { options: true },
+    })
+
+    return NextResponse.json({ status: 'seeded', polls: [poll1, poll2, poll3, poll4, poll5] })
   } catch (error) {
     console.error('Error seeding polls:', error)
     return NextResponse.json({ error: 'Failed to seed polls' }, { status: 500 })

@@ -152,7 +152,27 @@ export default function PollsAdmin() {
             <Link href="/admin/dashboard" className="text-red-600 hover:text-red-700 text-sm mb-2 inline-block">← Back to Dashboard</Link>
             <h1 className="text-2xl font-bold text-gray-800">🗳️ Polls</h1>
           </div>
-          <button onClick={() => setShowForm(true)} className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition">+ Create Poll</button>
+          <div className="flex gap-2">
+            <button onClick={() => setShowForm(true)} className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition">+ Create Poll</button>
+            <button
+              onClick={async () => {
+                try {
+                  const apiKey = localStorage.getItem('adminApiKey')
+                  const res = await fetch('/api/polls/seed', { method: 'POST', headers: { 'x-api-key': apiKey || '' } })
+                  const data = await res.json()
+                  if (!res.ok) throw new Error(data.error || 'Failed to seed polls')
+                  alert(`Seeded ${Array.isArray(data.polls) ? data.polls.length : 0} demo polls`)
+                  loadPolls()
+                } catch (e: any) {
+                  alert(e.message || 'Failed to seed demo polls')
+                }
+              }}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition"
+              title="Add 5 demo polls"
+            >
+              + Add 5 Demo Polls
+            </button>
+          </div>
         </div>
       </div>
 
