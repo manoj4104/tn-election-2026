@@ -130,8 +130,8 @@ export default function PollsPage() {
                   question: 'Which alliance will form the government?',
                   questionTamil: 'எந்த கூட்டணி அரசு அமைக்கும்?',
                   type: 'prediction',
-                  status: 'active',
-                  totalVotes: 0,
+                  status: 'closed',
+                  totalVotes: 100,
                   options: [
                     { id: 1, text: 'DMK Alliance', textTamil: 'திமுக கூட்டணி', voteCount: 45, percentage: 45, Party: { name: 'DMK', color: '#dc2626' } },
                     { id: 2, text: 'AIADMK Alliance', textTamil: 'அதிமுக கூட்டணி', voteCount: 35, percentage: 35, Party: { name: 'AIADMK', color: '#16a34a' } },
@@ -149,8 +149,8 @@ export default function PollsPage() {
                   question: 'Which party will win this constituency?',
                   questionTamil: 'இந்த தொகுதியில் எந்தக் கட்சி வெல்லும்?',
                   type: 'prediction',
-                  status: 'active',
-                  totalVotes: 0,
+                  status: 'closed',
+                  totalVotes: 100,
                   options: [
                     { id: 1, text: 'DMK Candidate', textTamil: 'திமுக வேட்பாளர்', voteCount: 40, percentage: 40, Party: { name: 'DMK', color: '#dc2626' } },
                     { id: 2, text: 'AIADMK Candidate', textTamil: 'அதிமுக வேட்பாளர்', voteCount: 38, percentage: 38, Party: { name: 'AIADMK', color: '#16a34a' } },
