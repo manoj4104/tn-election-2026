@@ -115,10 +115,52 @@ export default function PollsPage() {
             <p className="mt-4 text-gray-600">Loading polls...</p>
           </div>
         ) : filteredPolls.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">
-              No polls available at the moment.
-            </p>
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center py-8 mb-6 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <p className="text-yellow-800">No polls available yet. Here’s a preview of how polls will look:</p>
+              <p className="text-yellow-700 text-sm mt-2">You can create sample polls by calling the endpoint /api/polls/seed (secured in production).</p>
+            </div>
+            <div className="grid gap-6">
+              {/* Demo preview cards */}
+              <PollCard 
+                poll={{
+                  id: 0,
+                  title: 'Who will win Tamil Nadu 2026?',
+                  titleTamil: '2026 தமிழ்நாடு தேர்தலில் யார் வெல்வார்கள்?',
+                  question: 'Which alliance will form the government?',
+                  questionTamil: 'எந்த கூட்டணி அரசு அமைக்கும்?',
+                  type: 'prediction',
+                  status: 'active',
+                  totalVotes: 0,
+                  options: [
+                    { id: 1, text: 'DMK Alliance', textTamil: 'திமுக கூட்டணி', voteCount: 45, percentage: 45, Party: { name: 'DMK', color: '#dc2626' } },
+                    { id: 2, text: 'AIADMK Alliance', textTamil: 'அதிமுக கூட்டணி', voteCount: 35, percentage: 35, Party: { name: 'AIADMK', color: '#16a34a' } },
+                    { id: 3, text: 'BJP Alliance', textTamil: 'பாஜக கூட்டணி', voteCount: 15, percentage: 15, Party: { name: 'BJP', color: '#f97316' } },
+                    { id: 4, text: 'Third Front', textTamil: 'மூன்றாவது முன்னணி', voteCount: 5, percentage: 5 },
+                  ],
+                  Constituency: undefined,
+                }}
+              />
+              <PollCard 
+                poll={{
+                  id: 0,
+                  title: 'Who will win Chennai Central?',
+                  titleTamil: 'சென்னை மத்தியத்தில் யார் வெல்வார்கள்?',
+                  question: 'Which party will win this constituency?',
+                  questionTamil: 'இந்த தொகுதியில் எந்தக் கட்சி வெல்லும்?',
+                  type: 'prediction',
+                  status: 'active',
+                  totalVotes: 0,
+                  options: [
+                    { id: 1, text: 'DMK Candidate', textTamil: 'திமுக வேட்பாளர்', voteCount: 40, percentage: 40, Party: { name: 'DMK', color: '#dc2626' } },
+                    { id: 2, text: 'AIADMK Candidate', textTamil: 'அதிமுக வேட்பாளர்', voteCount: 38, percentage: 38, Party: { name: 'AIADMK', color: '#16a34a' } },
+                    { id: 3, text: 'BJP Candidate', textTamil: 'பாஜக வேட்பாளர்', voteCount: 12, percentage: 12, Party: { name: 'BJP', color: '#f97316' } },
+                    { id: 4, text: 'Independent/Other', textTamil: 'சுயேச்சை/பிற', voteCount: 10, percentage: 10 },
+                  ],
+                  Constituency: { name: 'Chennai Central' },
+                }}
+              />
+            </div>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">

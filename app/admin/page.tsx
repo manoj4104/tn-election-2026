@@ -23,8 +23,9 @@ export default function AdminLogin() {
     setLoading(true)
 
     try {
-      // Test the API key by hitting a protected endpoint
-      const response = await fetch('/api/health', {
+      // Validate API key using a protected endpoint
+      const response = await fetch('/api/admin/verify', {
+        method: 'POST',
         headers: { 'x-api-key': apiKey }
       })
 
@@ -35,7 +36,7 @@ export default function AdminLogin() {
         setError('Invalid API key')
       }
     } catch (err) {
-      setError('Connection error')
+  setError('Connection error')
     } finally {
       setLoading(false)
     }
