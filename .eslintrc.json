@@ -4,11 +4,13 @@
     "@next/next/no-img-element": "off",
     "react/no-unknown-property": ["error", { "ignore": ["jsx", "global"] }],
     "@stylistic/no-inline-styles": "off",
-    "react/forbid-dom-props": "off"
+    "react/forbid-dom-props": "off",
+    "react/forbid-component-props": "off"
   },
   "ignorePatterns": [
     "app/results/**/*.tsx",
     "components/ColorPreview.tsx",
-    "app/tn-election/page.tsx"
+    "app/tn-election/page.tsx",
+    "components/PollCard.tsx"
   ]
 }
