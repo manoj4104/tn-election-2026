@@ -1,13 +1,20 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { requireApiKey } from '@/lib/auth';
 
-// GET all active polls
-export async function GET() {
+// GET polls (active by default, all if ?all=1 or ?status=all)
+export async function GET(req: NextRequest) {
   try {
+    const all = req.nextUrl.searchParams.get('all');
+    const status = req.nextUrl.searchParams.get('status');
+    const where: any = {};
+
+    if (!(all === '1' || status === 'all')) {
+      where.status = 'active';
+    }
+
     const polls = await prisma.poll.findMany({
-      where: {
-        status: 'active',
-      },
+      where,
       include: {
         options: {
           include: {
@@ -29,9 +36,12 @@ export async function GET() {
   }
 }
 
-// POST create new poll
+// POST create new poll (admin only)
 export async function POST(request: Request) {
   try {
+    const unauthorized = requireApiKey(request as any);
+    if (unauthorized) return unauthorized;
+
     const body = await request.json();
     const {
       title,
@@ -43,6 +53,13 @@ export async function POST(request: Request) {
       endDate,
       options,
     } = body;
+
+    if (!title || !question) {
+      return NextResponse.json({ error: 'Title and question are required' }, { status: 400 });
+    }
+    if (!Array.isArray(options) || options.length < 2) {
+      return NextResponse.json({ error: 'At least two options are required' }, { status: 400 });
+    }
 
     // Create poll with options
     const poll = await prisma.poll.create({

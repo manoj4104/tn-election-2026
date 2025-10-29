@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { requireApiKey } from '@/lib/auth';
 
 // GET specific poll with results
 export async function GET(
@@ -45,6 +46,8 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const unauthorized = requireApiKey(request as any);
+    if (unauthorized) return unauthorized;
     const { id } = await params;
     const body = await request.json();
     const { status, endDate } = body;
@@ -82,6 +85,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const unauthorized = requireApiKey(request as any);
+    if (unauthorized) return unauthorized;
     const { id } = await params;
     await prisma.poll.delete({
       where: {
