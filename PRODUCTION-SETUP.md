@@ -43,7 +43,15 @@
 
 ## Step 3: Initialize Production Database
 
-Update your local `.env.local` temporarily:
+**IMPORTANT:** Make sure you've regenerated Prisma Client with the correct binaries:
+
+```powershell
+npx prisma generate
+```
+
+This ensures the Vercel deployment has the Linux binaries needed.
+
+Then, update your local `.env.local` temporarily:
 
 ```bash
 # Replace the DATABASE_URL line with your Neon connection string
