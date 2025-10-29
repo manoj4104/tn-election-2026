@@ -29,9 +29,11 @@ export default function PollsPage() {
     try {
       const response = await fetch('/api/polls');
       const data = await response.json();
-      setPolls(data);
+      // Ensure data is always an array
+      setPolls(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching polls:', error);
+      setPolls([]);
     } finally {
       setLoading(false);
     }

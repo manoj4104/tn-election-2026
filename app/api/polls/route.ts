@@ -21,13 +21,11 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(polls);
+    return NextResponse.json(polls || []);
   } catch (error) {
     console.error('Error fetching polls:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch polls' },
-      { status: 500 }
-    );
+    // Return empty array instead of error object to prevent frontend crash
+    return NextResponse.json([]);
   }
 }
 
