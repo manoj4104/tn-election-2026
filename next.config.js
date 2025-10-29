@@ -5,6 +5,9 @@ const nextConfig = {
     // your project has type errors.
     ignoreBuildErrors: true,
   },
+  outputFileTracingIncludes: {
+    '/api/**/*': ['./node_modules/.prisma/client/**/*'],
+  },
   images: {
     // Allow external images from Freepik (ensure you use a direct image URL, not a webpage URL)
     remotePatterns: [
