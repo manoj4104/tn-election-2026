@@ -28,12 +28,18 @@ export default function AdminDashboard() {
 
   const loadStats = async () => {
     try {
+      const safeJson = async (url: string) => {
+        const r = await fetch(url)
+        if (!r.ok) return { meta: { total: 0 } }
+        return r.json().catch(() => ({ meta: { total: 0 } }))
+      }
+
       const [parties, constituencies, candidates, articles, results] = await Promise.all([
-        fetch('/api/parties?limit=1').then(r => r.json()),
-        fetch('/api/constituencies?limit=1').then(r => r.json()),
-        fetch('/api/candidates?limit=1').then(r => r.json()),
-        fetch('/api/news?limit=1').then(r => r.json()),
-        fetch('/api/results?limit=1').then(r => r.json()),
+        safeJson('/api/parties?limit=1'),
+        safeJson('/api/constituencies?limit=1'),
+        safeJson('/api/candidates?limit=1'),
+        safeJson('/api/news?limit=1'),
+        safeJson('/api/results?limit=1'),
       ])
 
       setStats({

@@ -41,9 +41,14 @@ export default function PollsAdmin() {
 
   async function loadLists() {
     try {
+      const safeJson = async (url: string) => {
+        const r = await fetch(url)
+        if (!r.ok) return { data: [] }
+        return r.json().catch(() => ({ data: [] }))
+      }
       const [p, c] = await Promise.all([
-        fetch('/api/parties?limit=200').then(r => r.json()),
-        fetch('/api/constituencies?limit=500').then(r => r.json()),
+        safeJson('/api/parties?limit=200'),
+        safeJson('/api/constituencies?limit=500'),
       ])
       setParties(p.data || [])
       setConstituencies(c.data || [])

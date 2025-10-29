@@ -29,6 +29,7 @@ export default function AdminTable({ endpoint, title, icon, columns, createField
   const router = useRouter()
   const [items, setItems] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
   const [formData, setFormData] = useState<any>({})
@@ -51,13 +52,18 @@ export default function AdminTable({ endpoint, title, icon, columns, createField
 
   const loadData = async () => {
     setLoading(true)
+    setLoadError(null)
     try {
       const response = await fetch(`/api/${endpoint}?page=${page}&limit=20`)
+      if (!response.ok) {
+        throw new Error(`Failed to load ${endpoint}: ${response.status}`)
+      }
       const data = await response.json()
       setItems(data.data || [])
       setMeta(data.meta)
     } catch (error) {
       console.error('Failed to load data:', error)
+      setLoadError('Unable to load data. Check DATABASE_URL on your host and redeploy.')
     } finally {
       setLoading(false)
     }
@@ -146,6 +152,11 @@ export default function AdminTable({ endpoint, title, icon, columns, createField
 
       {/* Content */}
       <div className="container mx-auto px-4 py-8">
+        {loadError && (
+          <div className="mb-4 bg-yellow-50 border border-yellow-200 text-yellow-800 rounded p-3 text-sm">
+            {loadError} <a className="underline" href="/api/health/db" target="_blank" rel="noreferrer">Test DB Connection</a>
+          </div>
+        )}
         {/* Form Modal */}
         {showForm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
