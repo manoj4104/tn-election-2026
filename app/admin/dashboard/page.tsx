@@ -61,6 +61,7 @@ export default function AdminDashboard() {
     { href: '/admin/candidates', label: 'Candidates', icon: '👤', color: 'bg-purple-500' },
     { href: '/admin/news', label: 'News Articles', icon: '📰', color: 'bg-orange-500' },
     { href: '/admin/results', label: 'Results', icon: '📊', color: 'bg-red-500' },
+    { href: '/admin/polls', label: 'Polls', icon: '🗳️', color: 'bg-indigo-500' },
     { href: '/admin-upload.html', label: 'Upload Images', icon: '📸', color: 'bg-pink-500' },
   ];
 

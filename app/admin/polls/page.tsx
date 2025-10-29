@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 interface Party { id: number; name: string }
@@ -8,6 +9,7 @@ interface Constituency { id: number; name: string }
 interface PollOptionInput { text: string; textTamil?: string; partyId?: number | '' }
 
 export default function PollsAdmin() {
+  const router = useRouter()
   const [polls, setPolls] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -28,9 +30,14 @@ export default function PollsAdmin() {
   })
 
   useEffect(() => {
+    const apiKey = localStorage.getItem('adminApiKey')
+    if (!apiKey) {
+      router.push('/admin')
+      return
+    }
     loadLists()
     loadPolls()
-  }, [])
+  }, [router])
 
   async function loadLists() {
     try {
