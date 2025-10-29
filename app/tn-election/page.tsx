@@ -1,6 +1,8 @@
 'use client'
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-inline-styles */
+/* eslint-disable @stylistic/no-inline-styles */
+/* eslint-disable react/forbid-dom-props */
 
 import React, { useState, useEffect } from "react";
 import Image from 'next/image'
@@ -154,8 +156,8 @@ function Home({ summary, constituencies, onOpenConstituency }: {
       <div className="thanthi-card p-6">
         <h2 className="text-xl font-bold mb-4 text-gray-800">முன்னணி கூட்டணி | Leading Alliance</h2>
         <div className="space-y-4">
-          {/* eslint-disable-next-line */}
           {summary.alliances.slice(0, 2).map((alliance) => (
+            // eslint-disable-next-line react/forbid-dom-props
             <div key={alliance.id} 
                  className="flex items-center justify-between p-4 rounded-lg border-l-4"
                  style={{ 
@@ -163,16 +165,19 @@ function Home({ summary, constituencies, onOpenConstituency }: {
                    borderColor: alliance.color 
                  }}>
               <div className="flex items-center gap-4">
+                {/* eslint-disable-next-line react/forbid-dom-props */}
                 <div className="h-12 w-12 rounded-full flex items-center justify-center text-white font-bold"
                      style={{ backgroundColor: alliance.color }}>
                   {alliance.name.substring(0, 2)}
                 </div>
                 <div>
+                  {/* eslint-disable-next-line react/forbid-dom-props */}
                   <div className="font-bold" style={{ color: alliance.color }}>{alliance.name}</div>
                   <div className="text-sm text-gray-600">Won: {alliance.won} | Leading: {alliance.leading}</div>
                 </div>
               </div>
               <div className="text-right">
+                {/* eslint-disable-next-line react/forbid-dom-props */}
                 <div className="text-2xl font-bold" style={{ color: alliance.color }}>{alliance.seats}</div>
                 <div className="text-sm text-gray-600">{alliance.votesPct}% votes</div>
               </div>

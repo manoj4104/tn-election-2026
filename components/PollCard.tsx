@@ -1,4 +1,7 @@
 'use client';
+/* eslint-disable react/no-inline-styles */
+/* eslint-disable @stylistic/no-inline-styles */
+/* eslint-disable react/forbid-dom-props */
 
 import { useState, useEffect } from 'react';
 
@@ -159,6 +162,7 @@ export default function PollCard({ poll, onVote }: PollCardProps) {
                   </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                  {/* eslint-disable-next-line react/forbid-dom-props */}
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{
