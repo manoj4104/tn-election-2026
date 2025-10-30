@@ -35,27 +35,25 @@ export default function PollsAdmin() {
       router.push('/admin')
       return
     }
+
+    async function loadLists() {
+      try {
+        const [pRes, cRes] = await Promise.all([
+          fetch('/api/parties?limit=200'),
+          fetch('/api/constituencies?limit=500'),
+        ])
+        const p = await pRes.json()
+        const c = await cRes.json()
+        setParties(p.data || [])
+        setConstituencies(c.data || [])
+      } catch (e) {
+        console.error('Failed to load lists', e)
+      }
+    }
+
     loadLists()
     loadPolls()
   }, [router])
-
-  async function loadLists() {
-    try {
-      const safeJson = async (url: string) => {
-        const r = await fetch(url)
-        if (!r.ok) return { data: [] }
-        return r.json().catch(() => ({ data: [] }))
-      }
-      const [p, c] = await Promise.all([
-        safeJson('/api/parties?limit=200'),
-        safeJson('/api/constituencies?limit=500'),
-      ])
-      setParties(p.data || [])
-      setConstituencies(c.data || [])
-    } catch (e) {
-      console.error('Failed to load lists', e)
-    }
-  }
 
   async function loadPolls() {
     setLoading(true)
@@ -164,6 +162,12 @@ export default function PollsAdmin() {
                 try {
                   const apiKey = localStorage.getItem('adminApiKey')
                   const res = await fetch('/api/polls/seed', { method: 'POST', headers: { 'x-api-key': apiKey || '' } })
+                  if (res.status === 401) {
+                    alert('Unauthorized. Please login again.')
+                    localStorage.removeItem('adminApiKey')
+                    window.location.href = '/admin'
+                    return
+                  }
                   const data = await res.json()
                   if (!res.ok) throw new Error(data.error || 'Failed to seed polls')
                   alert(`Seeded ${Array.isArray(data.polls) ? data.polls.length : 0} demo polls`)

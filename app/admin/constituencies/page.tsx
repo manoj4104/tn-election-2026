@@ -22,6 +22,13 @@ export default function ConstituenciesAdmin() {
         },
       })
 
+      if (response.status === 401) {
+        alert('Unauthorized. Please login again.');
+        localStorage.removeItem('adminApiKey');
+        window.location.href = '/admin';
+        return;
+      }
+
       const data = await response.json()
 
       if (data.ok) {
